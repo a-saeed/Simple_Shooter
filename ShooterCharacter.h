@@ -26,4 +26,11 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+private:
+
+	/*functions to bind the input action mapping for the character*/
+	void moveVertical(float inputValue);
+	void moveHorizontal(float inputValue);
+
+
 };
