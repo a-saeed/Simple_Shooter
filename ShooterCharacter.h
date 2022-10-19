@@ -6,6 +6,7 @@
 #include "GameFramework/Character.h"
 #include "ShooterCharacter.generated.h"
 
+class AGun;
 UCLASS()
 class SIMPLE_SHOOTER_API AShooterCharacter : public ACharacter
 {
@@ -32,5 +33,10 @@ private:
 	void moveVertical(float inputValue);
 	void moveHorizontal(float inputValue);
 
+	//variables to manipulate the gun class
+	UPROPERTY()
+		AGun* gun;						//this is the pointer that will hold wichever gun will be spawned (could be a rifle, sniper, etc...)
+	UPROPERTY(EditDefaultsOnly, Category = "Combat")			//this will be set in blueprint to choose which type gun we want to spawn (needs to be a bluePrint based on the gun class)
+		TSubclassOf<AGun> gunClass;
 
 };
