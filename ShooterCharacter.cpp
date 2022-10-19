@@ -19,6 +19,17 @@ void AShooterCharacter::BeginPlay()
 	
 	//at begin play.. spawn the gun actor
 	gun = GetWorld()->SpawnActor<AGun>(gunClass);
+
+	//hide the original gun attached to the character asset by hiding the bone attached to it
+	//GetMesh() is the mesh of the shooter character (this class)
+	GetMesh()->HideBoneByName(TEXT("weapon_r"), EPhysBodyOp::PBO_None);
+
+	// we need to attach our "runtime-spawned gun" to the this shooter character's mesh component (at runtime)
+	gun->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, TEXT("weaponSocket"));
+
+	//set the owner of this spawned gun to the shooter character (needed in applying damage AND multiplayers)
+	gun->SetOwner(this);
+
 }
 
 // Called every frame
