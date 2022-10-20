@@ -53,6 +53,9 @@ void AShooterCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 	PlayerInputComponent->BindAxis(TEXT("LookHorizontal"), this, &APawn::AddControllerYawInput);
 
 	PlayerInputComponent->BindAction(TEXT("Jump"), EInputEvent::IE_Pressed, this, &ACharacter::Jump);
+
+	//bind the shoot function
+	PlayerInputComponent->BindAction(TEXT("shoot"), EInputEvent::IE_Pressed, this, &AShooterCharacter::shoot);
 }
 
 void AShooterCharacter::moveVertical(float inputValue)
@@ -65,6 +68,11 @@ void AShooterCharacter::moveVertical(float inputValue)
 void AShooterCharacter::moveHorizontal(float inputValue)
 {
 	AddMovementInput(GetActorRightVector() * inputValue);
+}
+
+void AShooterCharacter::shoot()
+{
+	gun->pullTrigger();
 }
 
 

@@ -18,6 +18,10 @@ AGun::AGun()
 	gunMeshComponent->SetupAttachment(root);
 }
 
+void AGun::pullTrigger()
+{
+}
+
 // Called when the game starts or when spawned
 void AGun::BeginPlay()
 {

@@ -14,6 +14,8 @@ class SIMPLE_SHOOTER_API AGun : public AActor
 public:	
 	// Sets default values for this actor's properties
 	AGun();
+	//function to pull the trigger, is public because it will be called from within the shooter character class
+	void pullTrigger();
 
 protected:
 	// Called when the game starts or when spawned
