@@ -23,6 +23,25 @@ void AGun::pullTrigger()
 {
 	//spawn the muzzle flash particle effect at the attached socket of the gun's skeletal mesh, the muzzle (it should be a skeletal mesh to do this trick)
 	UGameplayStatics::SpawnEmitterAttached(muzzleFlash, gunMeshComponent, TEXT("MuzzleFlashSocket"));
+	
+	//we need to get the view point of the player, why?
+	//to be able to make a line trace that simulates the bullet projection end point
+	//the function to get it is located in a controller class
+	//controllers are only meant for pawns that can be posessed (not guns!)
+	//getOwner() gets the shooter character which owns this gun.. we alreday set the owner in the shooter character class
+	//from there we can get the controller which controls the shooter character
+
+	APawn* ownerPawn = Cast<APawn> (GetOwner());
+	if (ownerPawn == nullptr) return;
+
+	AController* ownerController = ownerPawn->GetController();
+	if (ownerController == nullptr) return;
+
+	FVector out_location;
+	FRotator out_rotation;
+	ownerController->GetPlayerViewPoint(out_location, out_rotation);
+
+	DrawDebugCamera(GetWorld(), out_location, out_rotation, 90, 2, FColor::Red, true);
 }
 
 // Called when the game starts or when spawned
