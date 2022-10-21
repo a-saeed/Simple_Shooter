@@ -37,4 +37,8 @@ private:
 	/*gun particle effects*/
 	UPROPERTY(EditAnywhere)
 		UParticleSystem* muzzleFlash;
+
+	/*gun private variables*/
+	UPROPERTY(EditAnywhere)
+		float maxRange = 1000;
 };

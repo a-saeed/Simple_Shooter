@@ -37,11 +37,22 @@ void AGun::pullTrigger()
 	AController* ownerController = ownerPawn->GetController();
 	if (ownerController == nullptr) return;
 
-	FVector out_location;
-	FRotator out_rotation;
-	ownerController->GetPlayerViewPoint(out_location, out_rotation);
+	FVector outLocation; //location of the view point of the camera, will be populated with the playerViewPoint() function.
+	FRotator outRotation; //rotation of the view point of the camera, will be populated with the playerViewPoint() function.
+	ownerController->GetPlayerViewPoint(outLocation, outRotation);
+	
+	//to do a line trace we need a start and end vector, we already have the start (outLocation)
+	//end = start location + the direction in which the camera is pointing at * maxrange we want the bullet to travel..
+	//the vector we get from that rotation will be of size 1
+	FVector end = outLocation + outRotation.Vector() * maxRange;
 
-	DrawDebugCamera(GetWorld(), out_location, out_rotation, 90, 2, FColor::Red, true);
+	FHitResult outHit;
+	bool hasHit = GetWorld()->LineTraceSingleByChannel(outHit, outLocation, outHit.Location, ECollisionChannel::ECC_GameTraceChannel1); //create a channel "Bullet", can be found in config/DefaultEngine.
+
+	if (hasHit)
+	{
+		DrawDebugPoint(GetWorld(), outHit.Location, 20, FColor::Red, true); //outHit.ImpactPoint would work as well
+	}
 }
 
 // Called when the game starts or when spawned
