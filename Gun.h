@@ -27,9 +27,14 @@ public:
 
 private:
 	
+	/*gun main components*/
 	UPROPERTY(VisibleAnywhere)
 		USceneComponent* root;
 
 	UPROPERTY(VisibleAnywhere) //we make it "VisibleAnywhere" because they are pointers. we don't want to edit the pointers, just see them.
 		USkeletalMeshComponent* gunMeshComponent; //we used skeletal mesh because the gun mesh in the asset pack is skeletal not static
+
+	/*gun particle effects*/
+	UPROPERTY(EditAnywhere)
+		UParticleSystem* muzzleFlash;
 };

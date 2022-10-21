@@ -3,6 +3,7 @@
 
 #include "Gun.h"
 #include "Components/SkeletalMeshComponent.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 AGun::AGun()
@@ -20,6 +21,8 @@ AGun::AGun()
 
 void AGun::pullTrigger()
 {
+	//spawn the muzzle flash particle effect at the attached socket of the gun's skeletal mesh, the muzzle (it should be a skeletal mesh to do this trick)
+	UGameplayStatics::SpawnEmitterAttached(muzzleFlash, gunMeshComponent, TEXT("MuzzleFlashSocket"));
 }
 
 // Called when the game starts or when spawned
