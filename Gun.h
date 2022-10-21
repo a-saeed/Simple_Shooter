@@ -36,7 +36,10 @@ private:
 
 	/*gun particle effects*/
 	UPROPERTY(EditAnywhere)
-		UParticleSystem* muzzleFlash;
+		UParticleSystem* particleMuzzleFlash;
+
+	UPROPERTY(EditAnywhere)
+		UParticleSystem* particleBulletImpact;
 
 	/*gun private variables*/
 	UPROPERTY(EditAnywhere)

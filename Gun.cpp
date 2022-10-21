@@ -22,7 +22,10 @@ AGun::AGun()
 void AGun::pullTrigger()
 {
 	//spawn the muzzle flash particle effect at the attached socket of the gun's skeletal mesh, the muzzle (it should be a skeletal mesh to do this trick)
-	UGameplayStatics::SpawnEmitterAttached(muzzleFlash, gunMeshComponent, TEXT("MuzzleFlashSocket"));
+	if (particleMuzzleFlash)
+	{
+		UGameplayStatics::SpawnEmitterAttached(particleMuzzleFlash, gunMeshComponent, TEXT("MuzzleFlashSocket"));
+	}
 	
 	//we need to get the view point of the player, why?
 	//to be able to make a line trace that simulates the bullet projection end point
@@ -47,12 +50,19 @@ void AGun::pullTrigger()
 	FVector end = outLocation + outRotation.Vector() * maxRange;
 
 	FHitResult outHit;
-	bool hasHit = GetWorld()->LineTraceSingleByChannel(outHit, outLocation, outHit.Location, ECollisionChannel::ECC_GameTraceChannel1); //create a channel "Bullet", can be found in config/DefaultEngine.
+	bool hasHit = GetWorld()->LineTraceSingleByChannel(outHit, outLocation, end, ECollisionChannel::ECC_GameTraceChannel1); //create a channel "Bullet", can be found in config/DefaultEngine.
 
 	if (hasHit)
 	{
-		DrawDebugPoint(GetWorld(), outHit.Location, 20, FColor::Red, true); //outHit.ImpactPoint would work as well
+		//DrawDebugPoint(GetWorld(), outHit.Location, 20, FColor::Red, true); //outHit.ImpactPoint would work as well
+		if (particleBulletImpact)
+		{
+			FVector shotDirection = -outRotation.Vector();//we need the impact particle effect to spawn with a rotation that is opposite to the direction of shooting. otherwise the effect could play inside of a wall or through a character.
+			UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), particleBulletImpact, outHit.Location, shotDirection.Rotation());
+		}
+		
 	}
+
 }
 
 // Called when the game starts or when spawned
