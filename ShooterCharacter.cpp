@@ -17,6 +17,9 @@ void AShooterCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	//set health equal to max health
+	health = maxHealth;
+
 	//at begin play.. spawn the gun actor
 	gun = GetWorld()->SpawnActor<AGun>(gunClass);
 
@@ -56,6 +59,19 @@ void AShooterCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 
 	//bind the shoot function
 	PlayerInputComponent->BindAction(TEXT("shoot"), EInputEvent::IE_Pressed, this, &AShooterCharacter::shoot);
+}
+
+float AShooterCharacter::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
+{
+	float damageToApply = Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
+
+	//what if damage to apply is greater than health
+	damageToApply = FMath::Min(health, damageToApply);
+
+	health -= damageToApply;
+	UE_LOG(LogTemp, Warning, TEXT("actor name: %s , health: %f"), *DamageCauser->GetActorNameOrLabel(), health);
+
+	return damageToApply; //the amount of damage done.. zero if health is depleted
 }
 
 void AShooterCharacter::moveVertical(float inputValue)

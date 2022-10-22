@@ -35,13 +35,16 @@ private:
 		USkeletalMeshComponent* gunMeshComponent; //we used skeletal mesh because the gun mesh in the asset pack is skeletal not static
 
 	/*gun particle effects*/
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = "Effects")
 		UParticleSystem* particleMuzzleFlash;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = "Effects")
 		UParticleSystem* particleBulletImpact;
 
 	/*gun private variables*/
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = "Combat")
 		float maxRange = 1000;
+
+	UPROPERTY(EditAnywhere, Category = "Combat")
+		float damageAmount = 25;
 };

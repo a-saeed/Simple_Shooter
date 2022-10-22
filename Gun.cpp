@@ -59,6 +59,17 @@ void AGun::pullTrigger()
 		{
 			FVector shotDirection = -outRotation.Vector();//we need the impact particle effect to spawn with a rotation that is opposite to the direction of shooting. otherwise the effect could play inside of a wall or through a character.
 			UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), particleBulletImpact, outHit.Location, shotDirection.Rotation());
+
+			/*Apply damage to actors hit by the gun*/
+			//we need to specify the damage event, which will be a point damage since we're using a gun.
+			//then call Actor.TakeDamage() function
+			AActor* hitActor = outHit.GetActor();
+
+			if (hitActor) //if there's an actor that has been hit.
+			{
+				FPointDamageEvent damageEvent(damageAmount, outHit, shotDirection, nullptr);
+				hitActor->TakeDamage(damageAmount, damageEvent, ownerController, this);
+			}
 		}
 		
 	}

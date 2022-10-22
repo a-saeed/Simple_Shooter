@@ -27,6 +27,9 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	//override the TakeDamage() function in the Actor class
+	virtual float TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
+
 private:
 
 	/*functions to bind the input action mapping for the character*/
@@ -36,8 +39,15 @@ private:
 
 	//variables to manipulate the gun class
 	UPROPERTY()
-		AGun* gun;						//this is the pointer that will hold wichever gun will be spawned (could be a rifle, sniper, etc...)
-	UPROPERTY(EditDefaultsOnly, Category = "Combat")			//this will be set in blueprint to choose which type gun we want to spawn (needs to be a bluePrint based on the gun class)
+		AGun* gun; //this is the pointer that will hold wichever gun will be spawned (could be a rifle, sniper, etc...)
+
+	UPROPERTY(EditDefaultsOnly, Category = "Combat") //this will be set in blueprint to choose which type gun we want to spawn (needs to be a bluePrint based on the gun class)
 		TSubclassOf<AGun> gunClass;
 
+	//shooter character private variables
+	UPROPERTY(EditDefaultsOnly)
+		float maxHealth = 100;
+
+	UPROPERTY(VisibleAnywhere)
+		float health;
 };
