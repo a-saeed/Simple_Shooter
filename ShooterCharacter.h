@@ -30,6 +30,10 @@ public:
 	//override the TakeDamage() function in the Actor class
 	virtual float TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
 
+	//a blueprint callable function to play the death animation
+	UFUNCTION(BlueprintPure)
+		bool isDead() const;
+
 private:
 
 	/*functions to bind the input action mapping for the character*/

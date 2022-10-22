@@ -74,6 +74,11 @@ float AShooterCharacter::TakeDamage(float DamageAmount, FDamageEvent const& Dama
 	return damageToApply; //the amount of damage done.. zero if health is depleted
 }
 
+bool AShooterCharacter::isDead() const
+{
+	return health <= 0;
+}
+
 void AShooterCharacter::moveVertical(float inputValue)
 {
 	//this function is inherited from the character class, no need to implement any movement logic of our own..
