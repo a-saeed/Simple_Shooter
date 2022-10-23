@@ -17,4 +17,7 @@ class SIMPLE_SHOOTER_API UBTTask_ClearBlackboardValue : public UBTTask_Blackboar
 public:
 	UBTTask_ClearBlackboardValue();
 	
+protected:
+	//this function is implemented in UBTTaskNode class.. which is parent of BTTask_BlackboardBase .. which is parent of this class..
+	virtual EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory) override;
 };
