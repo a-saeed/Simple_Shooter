@@ -74,15 +74,16 @@ float AShooterCharacter::TakeDamage(float DamageAmount, FDamageEvent const& Dama
 
 	if (isDead())
 	{
-		DetachFromControllerPendingDestroy(); //disable the controller once the character is dead
-		GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision); //disable the capsule component on the character
-
 		//get hold of the game mode
 		ASimple_ShooterGameModeBase* gameMode = GetWorld()->GetAuthGameMode<ASimple_ShooterGameModeBase>();
 		if (gameMode != nullptr)
 		{
 			gameMode->pawnKilled(this);
 		}
+
+		DetachFromControllerPendingDestroy(); //disable the controller once the character is dead
+		GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision); //disable the capsule component on the character
+
 	}
 	return damageToApply; //the amount of damage done.. zero if health is depleted
 }
