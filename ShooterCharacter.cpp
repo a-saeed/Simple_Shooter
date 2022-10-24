@@ -3,7 +3,7 @@
 
 #include "ShooterCharacter.h"
 #include "Gun.h"
-
+#include "Components/CapsuleComponent.h"
 // Sets default values
 AShooterCharacter::AShooterCharacter()
 {
@@ -69,8 +69,12 @@ float AShooterCharacter::TakeDamage(float DamageAmount, FDamageEvent const& Dama
 	damageToApply = FMath::Min(health, damageToApply);
 
 	health -= damageToApply;
-	UE_LOG(LogTemp, Warning, TEXT("actor name: %s , health: %f"), *DamageCauser->GetActorNameOrLabel(), health);
 
+	if (isDead())
+	{
+		DetachFromControllerPendingDestroy(); //disable the controller once the character is dead
+		GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision); //disable the capsule component on the character
+	}
 	return damageToApply; //the amount of damage done.. zero if health is depleted
 }
 
