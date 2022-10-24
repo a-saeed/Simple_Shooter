@@ -4,6 +4,8 @@
 #include "ShooterCharacter.h"
 #include "Gun.h"
 #include "Components/CapsuleComponent.h"
+#include "Simple_ShooterGameModeBase.h"
+
 // Sets default values
 AShooterCharacter::AShooterCharacter()
 {
@@ -74,6 +76,13 @@ float AShooterCharacter::TakeDamage(float DamageAmount, FDamageEvent const& Dama
 	{
 		DetachFromControllerPendingDestroy(); //disable the controller once the character is dead
 		GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision); //disable the capsule component on the character
+
+		//get hold of the game mode
+		ASimple_ShooterGameModeBase* gameMode = GetWorld()->GetAuthGameMode<ASimple_ShooterGameModeBase>();
+		if (gameMode != nullptr)
+		{
+			gameMode->pawnKilled(this);
+		}
 	}
 	return damageToApply; //the amount of damage done.. zero if health is depleted
 }
