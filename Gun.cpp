@@ -49,8 +49,13 @@ void AGun::pullTrigger()
 	//the vector we get from that rotation will be of size 1
 	FVector end = outLocation + outRotation.Vector() * maxRange;
 
+	//query params that will be fed to the line trace function
+	FCollisionQueryParams params;
+	params.AddIgnoredActor(this); //don't hit the gun ur shooting with
+	params.AddIgnoredActor(GetOwner()); //ignore yourself;
+
 	FHitResult outHit;
-	bool hasHit = GetWorld()->LineTraceSingleByChannel(outHit, outLocation, end, ECollisionChannel::ECC_GameTraceChannel1); //create a channel "Bullet", can be found in config/DefaultEngine.
+	bool hasHit = GetWorld()->LineTraceSingleByChannel(outHit, outLocation, end, ECollisionChannel::ECC_GameTraceChannel1, params); //create a channel "Bullet", can be found in config/DefaultEngine.
 
 	if (hasHit)
 	{
