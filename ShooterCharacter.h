@@ -34,12 +34,12 @@ public:
 	UFUNCTION(BlueprintPure)
 		bool isDead() const;
 
-private:
+	void shoot(); //an intermediary function to help bind the pullTrigger() function in the Gun class...
 
+private:
 	/*functions to bind the input action mapping for the character*/
 	void moveVertical(float inputValue);
 	void moveHorizontal(float inputValue);
-	void shoot(); //an intermediary function to help bind the pullTrigger() function in the Gun class...
 
 	//variables to manipulate the gun class
 	UPROPERTY()
