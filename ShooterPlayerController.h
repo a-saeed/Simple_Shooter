@@ -22,4 +22,7 @@ private:
 	float restartDelay = 5.0f;
 
 	FTimerHandle restartHandle;
+
+	UPROPERTY(EditAnywhere)
+		TSubclassOf<class UUserWidget> loseScreenClass; //because we're calling a blueprint basically..
 };
