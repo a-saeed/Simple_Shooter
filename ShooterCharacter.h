@@ -34,6 +34,10 @@ public:
 	UFUNCTION(BlueprintPure)
 		bool isDead() const;
 
+	//a blueprint callable function to play the return percentage of the health to the HUD screen
+	UFUNCTION(BlueprintPure)
+		float getHealthPercentage() const;
+
 	void shoot(); //an intermediary function to help bind the pullTrigger() function in the Gun class...
 
 private:

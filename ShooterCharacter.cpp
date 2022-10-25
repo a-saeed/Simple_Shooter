@@ -105,6 +105,11 @@ void AShooterCharacter::moveHorizontal(float inputValue)
 	AddMovementInput(GetActorRightVector() * inputValue);
 }
 
+float AShooterCharacter::getHealthPercentage() const
+{
+	return health / maxHealth;
+}
+
 void AShooterCharacter::shoot()
 {
 	gun->pullTrigger();
