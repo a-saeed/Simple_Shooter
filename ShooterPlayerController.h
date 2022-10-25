@@ -25,4 +25,7 @@ private:
 
 	UPROPERTY(EditAnywhere)
 		TSubclassOf<class UUserWidget> loseScreenClass; //because we're calling a blueprint basically..
+
+	UPROPERTY(EditAnywhere)
+		TSubclassOf<class UUserWidget> winScreenClass;
 };
