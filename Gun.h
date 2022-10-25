@@ -47,4 +47,12 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = "Combat")
 		float damageAmount = 15;
+
+	/*gun private functions*/
+
+	//perform the line trace
+	bool gunTrace(FHitResult &outHit, FVector shotDirection);
+
+	//get the owner controller
+	AController* getOwnerController();
 };
