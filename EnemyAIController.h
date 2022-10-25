@@ -22,9 +22,12 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	bool isDead() const;
+
 private:
 	//Enemey ai controller private variables
 	UPROPERTY(EditAnywhere)
 	UBehaviorTree* behaviorAI;
+	
 	
 };

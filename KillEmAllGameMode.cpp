@@ -5,6 +5,7 @@
 #include "AIController.h"
 #include "EngineUtils.h"
 #include "GameFramework/Controller.h"
+#include "EnemyAIController.h"
 
 void AKillEmAllGameMode::pawnKilled(APawn* killedPawn)
 {
@@ -20,8 +21,20 @@ void AKillEmAllGameMode::pawnKilled(APawn* killedPawn)
 	//if the pawn that is killed is actually the player character.. otherwise the cast would fail because player controller doesn't poesess ai characters
 	if (playerController != nullptr)
 	{
+		//end game, player didn't win
 		endGame(false);
 	}
+
+	//if the killed pawn isn't a player character
+	for (AEnemyAIController* enemyController : TActorRange<AEnemyAIController>(GetWorld()))
+	{
+		//for each enemy controller existing in the level now, return early if at least one enemy ai is still alive
+		if (!enemyController->isDead())
+		{
+			return;
+		}
+	}
+	endGame(true); //end the game siganling that the player has won
 }
 
 void AKillEmAllGameMode::endGame(bool bIsPlayerWinner)
