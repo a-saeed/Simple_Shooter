@@ -41,12 +41,23 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Effects")
 		UParticleSystem* particleBulletImpact;
 
+	UPROPERTY(EditAnywhere, Category = "Effects")
+		USoundBase* muzzleSound;
+
+	UPROPERTY(EditAnywhere, Category = "Effects")
+		USoundBase* concreteImpactSound;
+
+	UPROPERTY(EditAnywhere, Category = "Effects")
+		USoundBase* playerImpactSound;
+
 	/*gun private variables*/
 	UPROPERTY(EditAnywhere, Category = "Combat")
 		float maxRange = 1000;
 
 	UPROPERTY(EditAnywhere, Category = "Combat")
 		float damageAmount = 15;
+
+
 
 	/*gun private functions*/
 

@@ -22,9 +22,10 @@ AGun::AGun()
 void AGun::pullTrigger()
 {
 	//spawn the muzzle flash particle effect at the attached socket of the gun's skeletal mesh, the muzzle (it should be a skeletal mesh to do this trick)
-	if (particleMuzzleFlash)
+	if (particleMuzzleFlash && muzzleSound)
 	{
 		UGameplayStatics::SpawnEmitterAttached(particleMuzzleFlash, gunMeshComponent, TEXT("MuzzleFlashSocket"));
+		UGameplayStatics::SpawnSoundAttached(muzzleSound, gunMeshComponent, TEXT("MuzzleFlashSocket"));
 	}
 	
 	FHitResult outHit;
@@ -34,23 +35,35 @@ void AGun::pullTrigger()
 	if (hasHit)
 	{
 		//DrawDebugPoint(GetWorld(), outHit.Location, 20, FColor::Red, true); //outHit.ImpactPoint would work as well
-		if (particleBulletImpact)
+		
+
+		/*Apply damage to actors hit by the gun*/
+		//we need to specify the damage event, which will be a point damage since we're using a gun.
+		//then call Actor.TakeDamage() function
+		AActor* hitActor = outHit.GetActor();	
+
+		if (hitActor != nullptr) //if there's an actor that has been hit.
 		{
-			UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), particleBulletImpact, outHit.Location, shotDirection.Rotation());
+			FPointDamageEvent damageEvent(damageAmount, outHit, shotDirection, nullptr);
+			AController* ownerController = getOwnerController();
+			hitActor->TakeDamage(damageAmount, damageEvent, ownerController, this);
 
-			/*Apply damage to actors hit by the gun*/
-			//we need to specify the damage event, which will be a point damage since we're using a gun.
-			//then call Actor.TakeDamage() function
-			AActor* hitActor = outHit.GetActor();	
-
-			if (hitActor != nullptr) //if there's an actor that has been hit.
+			//play particle and sound effects
+			if (particleBulletImpact && concreteImpactSound && playerImpactSound)
 			{
-				FPointDamageEvent damageEvent(damageAmount, outHit, shotDirection, nullptr);
-				AController* ownerController = getOwnerController();
-				hitActor->TakeDamage(damageAmount, damageEvent, ownerController, this);
+				UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), particleBulletImpact, outHit.Location, shotDirection.Rotation());
+
+				if (hitActor->ActorHasTag("character")) //if the actor hit is a character 
+				{
+					UGameplayStatics::PlaySoundAtLocation(GetWorld(), playerImpactSound, outHit.Location);
+				}
+				else
+				{
+					UGameplayStatics::PlaySoundAtLocation(GetWorld(), concreteImpactSound, outHit.Location);
+				}
+				
 			}
 		}
-		
 	}
 
 }
