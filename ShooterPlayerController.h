@@ -14,6 +14,10 @@ class SIMPLE_SHOOTER_API AShooterPlayerController : public APlayerController
 {
 	GENERATED_BODY()
 
+protected:
+	// Called when the game starts or when spawned
+	virtual void BeginPlay() override;
+
 public:
 
 	virtual void GameHasEnded(class AActor* EndGameFocus = nullptr, bool bIsWinner = false) override;
@@ -28,4 +32,10 @@ private:
 
 	UPROPERTY(EditAnywhere)
 		TSubclassOf<class UUserWidget> winScreenClass;
+
+	UPROPERTY(EditAnywhere)
+		TSubclassOf<class UUserWidget> hudScreenClass;
+
+	UPROPERTY()
+		UUserWidget* hudScreen;
 };
